@@ -11,7 +11,7 @@
 #include <cstddef>
 
 
- constexpr extern inline std::size_t max_aling = alignof(std::max_align_t);
+ constexpr extern inline std::size_t max_align = alignof(std::max_align_t);
 
 //    #include <string.h>                             //errno handling
 //    #include <errno.h>                              //errno
