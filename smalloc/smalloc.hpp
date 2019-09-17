@@ -37,12 +37,12 @@ public:
         //asserts
 
         //address is multiple of max_align
-        assert((max_aling-1)==((~reinterpret_cast<std::size_t>(address))&(max_aling-1)));
+        assert((max_align-1)==((~reinterpret_cast<std::size_t>(address))&(max_align-1)));
         //address is not nullptr
         assert(nullptr!=address);
 
         //size is multiple of max_align
-        assert((max_aling-1)==((~size)&(max_aling-1)));
+        assert((max_align-1)==((~size)&(max_align-1)));
         //size is not null
         assert(0!=size);
 
@@ -77,7 +77,7 @@ public:
     void change(void* address_){
         address=address_;
         //asserts
-        assert((max_aling-1)==((~reinterpret_cast<std::size_t>(address))&(max_aling-1)));
+        assert((max_align-1)==((~reinterpret_cast<std::size_t>(address))&(max_align-1)));
         assert(nullptr!=address);
         assert((reinterpret_cast<std::size_t>(address)-1)<=(SIZE_MAX-size));
     }
@@ -86,7 +86,7 @@ public:
     void change(std::size_t size_){
         size=size_;
         //asserts
-        assert((max_aling-1)==((~size)&(max_aling-1)));
+        assert((max_align-1)==((~size)&(max_align-1)));
         assert(0!=size);
         assert((reinterpret_cast<std::size_t>(address)-1)<=(SIZE_MAX-size));
     }
@@ -133,7 +133,7 @@ private:
                 std::size_t current_wideness=0;
                 {
 
-                auto iter=flat_address_space.lower_bound(chunk{reinterpret_cast<void*>(max_aling), rounded_num_of_bytes, chunk::free});
+                auto iter=flat_address_space.lower_bound(chunk{reinterpret_cast<void*>(max_align), rounded_num_of_bytes, chunk::free});
 
                 auto end=flat_address_space.end();
 
@@ -160,7 +160,7 @@ private:
 
                     //iterator to consisting place for new object chunk
                     std::size_t i=0;
-                    auto iter=flat_address_space.lower_bound(chunk(reinterpret_cast<void*>(max_aling),rounded_num_of_bytes,chunk::free));
+                    auto iter=flat_address_space.lower_bound(chunk(reinterpret_cast<void*>(max_align),rounded_num_of_bytes,chunk::free));
                     while(i<vector){ i+=iter->get_size()/rounded_num_of_bytes; if(i<vector) ++iter;}
 
                     //offset of object in chunk
@@ -454,8 +454,8 @@ private:
         {
             //delete binary information
             auto iter=flat_address_space.lower_bound(
-                                                        chunk(reinterpret_cast<void*>(max_aling),
-                                                              max_aling,
+                                                        chunk(reinterpret_cast<void*>(max_align),
+                                                              max_align,
                                                               chunk::busy
                                                         )
                                                     );
