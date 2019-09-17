@@ -449,7 +449,47 @@ private:
         }
 
 
-        ~memory_manager() = default;
+        ~memory_manager(){
+
+        {
+            //delete binary information
+            auto iter=flat_address_space.lower_bound(
+                                                        chunk(reinterpret_cast<void*>(max_aling),
+                                                              max_aling,
+                                                              chunk::busy
+                                                        )
+                                                    );
+            while(iter!=flat_address_space.end()){
+                page_initializer(iter->get_address(), iter->get_size());
+                ++iter;
+            }
+        }
+
+            //munmap
+            auto& address_index=flat_address_space.get<1>();
+
+            auto begin=address_index.begin();
+            auto end=address_index.end();
+
+            while(begin!=end){
+                void* address=begin->get_address();
+                std::size_t length=begin->get_size();
+
+                auto next=begin;
+                ++next;
+
+              while(next!=end&&adjacency(*begin, *next)){
+
+                  length+=next->get_size();
+
+                  ++begin;
+                  ++next;
+              }
+              munmap(address, length);
+              ++begin;
+            }
+
+        }
 
 
 protected:
