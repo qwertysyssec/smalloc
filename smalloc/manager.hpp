@@ -64,18 +64,19 @@ class allocator{
 
 
     [[nodiscard]] T* allocate(std::size_t n){
-        return reinterpret_cast<T*>(manager.new_(n));
+
+        return reinterpret_cast<T*>(manager.new_(n*sizeof(T)));
     }
 
     void deallocate(pointer p, std::size_t n){
         manager.delete_(reinterpret_cast<void*>(p));
     }
 
-    pointer address( reference x ) const noexcept{
+    pointer address(reference x ) const noexcept{
       return std::addressof(x);
     }
 
-    const_pointer address( const_reference x ) const noexcept{
+    const_pointer address(const_reference x) const noexcept{
       return std::addressof(x);
     }
 
@@ -102,6 +103,18 @@ bool operator==( const allocator<T1>& lhs, const allocator<T2>& rhs ) noexcept {
 template< typename T1, typename T2 >
 bool operator!=( const allocator<T1>& lhs, const allocator<T2>& rhs ) noexcept {
     return false;
+}
+
+bool is_one_chunk_left(){
+    return manager.get_flat_address_space().size() == 1 ? true : false;
+}
+
+bool is_all_free(){
+    if(manager.get_flat_address_space().size() == 0) {/*std::cout << "size == 0. no chunks.";*/ return true;}
+    return manager.get_flat_address_space().begin()->get_state() == memory_allocation::chunk::busy ? false : true;
+}
+bool is_empty(){
+    return manager.get_flat_address_space().empty();
 }
 
 
