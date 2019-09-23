@@ -105,7 +105,7 @@ bool operator!=( const allocator<T1>& lhs, const allocator<T2>& rhs ) noexcept {
 }
 
 #ifndef NDEBUG
-    const memory_allocation::manager& get_manager(){
+    const memory_allocation::memory_manager& get_manager(){
         return manager;
     }  
 #endif
