@@ -14,7 +14,7 @@ namespace smalloc {
 // interfaces for manual memory handling
 
     [[nodiscard]] void* allocate(std::size_t n){
-          return manager.new_(n);
+           return reinterpret_cast<T*>(manager.new_(n*sizeof(T)));
     }
 
     void deallocate(void* p){
