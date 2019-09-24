@@ -14,7 +14,7 @@ namespace smalloc {
 // interfaces for manual memory handling
 
     [[nodiscard]] void* allocate(std::size_t n){
-          return manager.new_(n);
+           return manager.new_(n);
     }
 
     void deallocate(void* p){
@@ -64,7 +64,10 @@ class allocator{
 
 
     [[nodiscard]] T* allocate(std::size_t n){
+<<<<<<< HEAD
 
+=======
+>>>>>>> a5a1eb5d0a4c3941a0a7688c82c12f21720c9654
         return reinterpret_cast<T*>(manager.new_(n*sizeof(T)));
     }
 
@@ -105,6 +108,7 @@ bool operator!=( const allocator<T1>& lhs, const allocator<T2>& rhs ) noexcept {
     return false;
 }
 
+<<<<<<< HEAD
 bool is_one_chunk_left(){
     return manager.get_flat_address_space().size() == 1 ? true : false;
 }
@@ -117,6 +121,13 @@ bool is_empty(){
     return manager.get_flat_address_space().empty();
 }
 
+=======
+#ifndef NDEBUG
+    const memory_allocation::memory_manager& get_manager(){
+        return manager;
+    }  
+#endif
+>>>>>>> a5a1eb5d0a4c3941a0a7688c82c12f21720c9654
 
 }
 

@@ -241,7 +241,7 @@ private:
                                                                             rounded_num_of_bytes,
                                                                             chunk::busy)).first;
 
-                         //workspace
+                         
 
                          /* а) освобождаем левый чанк
                           * 1) округлить вниз верхнюю грань
@@ -279,7 +279,7 @@ private:
                              }
                          }
 
-                         //workspace
+                         
 
                          //handling free chunks with defragmentation
 
@@ -298,14 +298,14 @@ private:
                                     left_iter->get_state()==chunk::free
                                     &&
                                     adjacency(*left_iter, middle)
-                                   )
+                                   ){
                                      //change address
                                      middle.change(left_iter->get_address());
                                      //change size
                                      middle.change(middle.get_size()+left_iter->get_size());
                                      //erase absorbed chunk
                                      address_index.erase(left_iter);
-
+                                 }
                              }
                              //insert absorbent chunk
                              address_index.insert(middle);
