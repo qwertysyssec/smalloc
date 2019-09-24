@@ -3,7 +3,7 @@
 
 
 //workspace
-
+#include <cassert>
 
 
 void offset_and_assign( void*& address, std::size_t length){
